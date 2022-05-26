@@ -1,0 +1,110 @@
+﻿@page "/FetchMedicine"
+@page "/"
+
+
+<h1>Medicine Tracking</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <a href='/Medicine/add' class="btn btn-primary" role="button">
+            <i class="fas fa-user-plus"></i>
+            Add Medicine
+        </a>
+    </div>
+    <div class="input-group col">
+        <input type="text" class="form-control" placeholder="Search Medicine by name"
+               @bind="SearchString" @bind:event="oninput" @onkeyup="FilterMed" />
+        @if (SearchString.Length > 0)
+        {
+<div class="input-group-append">
+    <button class="btn btn-info" @onclick="ResetSearch">
+        <i class="fas fa-times"></i>
+    </button>
+</div>}
+    </div>
+</div>
+<br />
+
+@if (MedList == null)
+{
+<p><em>Loading...</em></p> }
+else
+{
+@if (MedList.Count > 0)
+{
+
+
+<table class="table table-striped align-middle table-bordered">
+    <thead class="table-success">
+        <tr class="text-center">
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Expiry Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var med in MedList)
+        {
+<tr class="text-center">
+    <td>@(med.MedicineText ?? string.Empty) </td>
+    <td>@( med.Brand ?? string.Empty)</td>
+    <td>@(med.Price )</td>
+    <td>@med.Quantity</td>
+    <td>@(med.ExpiryDate.Date )</td>
+    <td>
+        <a href='/Medicine/edit/@med.ID' class="btn btn-outline-dark" role="button">Edit</a>
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteMedModal"
+                @onclick="(() => DeleteConfirm(med.ID))">
+            Delete
+        </button>
+    </td>
+</tr>}
+    </tbody>
+</table>
+@if (showDeletePopUp) {
+                    <div class="modal " id="deleteMedModal" data-bs-backdrop="static" data-bs-keyboard="false" style="display:block">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Delete Medicine?</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="(async () => await CloseModel())"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>Do you want to delete this Medicine ??</h4>
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>@(Med?.MedicineText ?? string.Empty)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Brand</td>
+                                                <td>@(Med.Brand ?? string.Empty)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Price</td>
+                                                <td>@Med.Price</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Expiry Date</td>
+                                                <td>@Med.ExpiryDate</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-danger" @onclick="(async () => await DeleteMedicine(Med.ID))" data-bs-dismiss="modal">YES</button>
+                                    <button class="btn btn-warning" data-bs-dismiss="modal" @onclick="(async () => await CloseModel())" >No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+    } }
+else
+{
+<div class="d-flex justify-content-center">
+    <h4>No record found</h4>
+</div>}
+}

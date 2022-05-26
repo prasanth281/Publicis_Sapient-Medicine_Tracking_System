@@ -1,0 +1,64 @@
+﻿@page "/Medicine/add"
+@page "/Medicine/edit/{MedID:int}"
+
+
+<h1>@Title Medicine</h1>
+<hr />
+
+<EditForm Model="@Med" OnValidSubmit="SaveMedicine">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="Med.MedicineText" />
+        </div>
+        <ValidationMessage For="@(() => Med.MedicineText)" />
+    </div>
+    <div class="mb-3">
+        <label for="Brand" class="form-label">Brand</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="Med.Brand">
+
+            </InputText>
+        </div>
+        <ValidationMessage For="@(() => Med.Brand)" />
+    </div>
+    <div class="mb-3">
+        <label for="Price" class="form-label">Price</label>
+        <div class="col-md-4">
+            <InputNumber class="form-control" @bind-Value="Med.Price" />
+        </div>
+        <ValidationMessage For="@(() => Med.Price)" />
+    </div>
+    <div class="mb-3">
+        <label for="Quantity" class="form-label">Quantity</label>
+        <div class="col-md-4">
+            <InputNumber class="form-control" @bind-Value="Med.Quantity">
+
+            </InputNumber>
+        </div>
+        <ValidationMessage For="@(() => Med.Quantity)" />
+    </div>
+    <div class="mb-3">
+        <label for="Quantity" class="form-label">Notes</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="Med.Notes">
+
+            </InputText>
+        </div>
+        <ValidationMessage For="@(() => Med.Notes)" />
+    </div>
+    <div class="mb-3">
+        <label for="Quantity" class="form-label">Expiry Date</label>
+        <div class="col-md-4">
+            <InputDate class="form-control" @bind-Value="Med.ExpiryDate" >
+
+            </InputDate>
+        </div>
+        <ValidationMessage For="@(() => Med.ExpiryDate)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
